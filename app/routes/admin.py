@@ -134,8 +134,8 @@ def image_delete(house_id, image_id):
 @admin_bp.route("/houses/<int:house_id>/images/<int:image_id>/make-primary", methods=["POST"])
 @login_required
 def image_make_primary(house_id, image_id):
-    HouseImage.query.filter_by(house_id=house_id).update({"is_primary": False})
     image = HouseImage.query.filter_by(id=image_id, house_id=house_id).first_or_404()
+    HouseImage.query.filter_by(house_id=house_id).update({"is_primary": False})
     image.is_primary = True
     db.session.commit()
     flash("Cover photo updated.", "success")
@@ -149,6 +149,17 @@ def occupants_list(house_id):
     return render_template("admin/occupants.html", house=house)
 
 
+_OCCUPANT_TEXT_FIELDS = {"full_name", "phone", "email", "notes"}
+
+
+def _apply_occupant_form(occupant, form):
+    form.populate_obj(occupant)
+    for field_name in _OCCUPANT_TEXT_FIELDS:
+        value = getattr(occupant, field_name)
+        if isinstance(value, str):
+            setattr(occupant, field_name, value.strip())
+
+
 @admin_bp.route("/houses/<int:house_id>/occupants/new", methods=["GET", "POST"])
 @login_required
 def occupant_new(house_id):
@@ -156,7 +167,7 @@ def occupant_new(house_id):
     form = OccupantForm()
     if form.validate_on_submit():
         occupant = Occupant(house=house)
-        form.populate_obj(occupant)
+        _apply_occupant_form(occupant, form)
         db.session.add(occupant)
         house.status = "occupied"
         db.session.commit()
@@ -171,7 +182,7 @@ def occupant_edit(occupant_id):
     occupant = Occupant.query.get_or_404(occupant_id)
     form = OccupantForm(obj=occupant)
     if form.validate_on_submit():
-        form.populate_obj(occupant)
+        _apply_occupant_form(occupant, form)
         db.session.commit()
         flash(f"{occupant.full_name}'s record was updated.", "success")
         return redirect(url_for("admin.occupants_list", house_id=occupant.house_id))
