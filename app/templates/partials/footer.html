@@ -1,0 +1,46 @@
+{% from "partials/icons.html" import icon %}
+<footer class="site-footer" id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="{{ site_name }} logo">
+          MC Properties
+        </div>
+        <p>Helping tenants find honest, well-kept homes, and helping owners fill them with good tenants. {{ site_tagline }}</p>
+      </div>
+
+      <div>
+        <div class="footer-heading">Explore</div>
+        <ul class="footer-links">
+          <li><a href="{{ url_for('public.home') }}">Home</a></li>
+          <li><a href="{{ url_for('public.listings') }}">All Listings</a></li>
+          <li><a href="{{ url_for('public.listings') }}?status=available">Available Now</a></li>
+          <li><a href="{{ url_for('auth.login') }}">Admin Login</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-heading">Get In Touch</div>
+        <ul class="footer-links">
+          <li>
+            <a href="{{ whatsapp_number | whatsapp_url('Hi, I would like to enquire about a property listed on MC Properties.') }}" target="_blank" rel="noopener">
+              {{ icon('whatsapp', 'icon') }} WhatsApp Us
+            </a>
+          </li>
+          <li>
+            <a href="{{ phone_number | tel_url }}">
+              {{ icon('phone', 'icon') }} {{ phone_number }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; <span data-current-year>2026</span> {{ site_name }}. All rights reserved.</span>
+      <span>Built to help you find home, faster.</span>
+    </div>
+  </div>
+</footer>
+<script>document.querySelector("[data-current-year]").textContent = new Date().getFullYear();</script>

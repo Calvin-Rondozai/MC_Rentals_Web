@@ -1,0 +1,42 @@
+{% extends "admin/_layout.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% block title %}Contact Settings | {{ site_name }} Admin{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-topbar">
+  <div>
+    <h1>Contact Settings</h1>
+    <p class="text-muted">These numbers power the WhatsApp and Call buttons tenants see on every listing.</p>
+  </div>
+</div>
+
+<div class="card form-card" style="max-width: 560px;">
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="field">
+      <label for="{{ form.whatsapp_number.id }}" class="required">{{ form.whatsapp_number.label.text }}</label>
+      {{ form.whatsapp_number(id=form.whatsapp_number.id, placeholder="27821234567") }}
+      <p class="help-text">Digits only, with country code, no + or spaces (e.g. 27821234567).</p>
+      {% for error in form.whatsapp_number.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="field">
+      <label for="{{ form.phone_number.id }}" class="required">{{ form.phone_number.label.text }}</label>
+      {{ form.phone_number(id=form.phone_number.id, placeholder="+27821234567") }}
+      {% for error in form.phone_number.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="field">
+      <label for="{{ form.currency_symbol.id }}" class="required">{{ form.currency_symbol.label.text }}</label>
+      {{ form.currency_symbol(id=form.currency_symbol.id) }}
+      {% for error in form.currency_symbol.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{ icon('check') }} Save Settings</button>
+  </form>
+</div>
+
+{% endblock %}

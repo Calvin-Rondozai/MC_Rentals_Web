@@ -1,0 +1,250 @@
+/* ==========================================================================
+   MC Properties — House detail page
+   ========================================================================== */
+
+.detail-hero {
+  padding-top: var(--space-6);
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+}
+
+.breadcrumbs a:hover {
+  color: var(--color-gold-700);
+}
+
+.gallery {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.gallery-main {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-surface-alt);
+  cursor: zoom-in;
+}
+
+.gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.gallery-main:hover img {
+  transform: scale(1.03);
+}
+
+.gallery-badge {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.gallery-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: var(--space-2);
+}
+
+.gallery-thumbs button {
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  aspect-ratio: 1;
+  padding: 0;
+  background: none;
+  transition: border-color var(--duration-base) var(--ease-out);
+}
+
+.gallery-thumbs button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-thumbs button.is-active,
+.gallery-thumbs button:hover {
+  border-color: var(--color-accent);
+}
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: var(--space-8);
+  align-items: start;
+  margin-top: var(--space-7);
+}
+
+@media (max-width: 960px) {
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.detail-location {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.detail-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-7);
+}
+
+.detail-meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.detail-meta-item .icon {
+  width: 26px;
+  height: 26px;
+  color: var(--color-gold-600);
+}
+
+.detail-meta-item strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-md);
+}
+
+.detail-meta-item span {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.detail-section {
+  margin-bottom: var(--space-8);
+}
+
+.sidebar-card {
+  position: sticky;
+  top: calc(var(--space-8));
+  padding: var(--space-6);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+.sidebar-price {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: var(--text-xl);
+  color: var(--color-heading-strong);
+}
+
+.sidebar-price span {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.sidebar-card .badge {
+  margin-bottom: var(--space-5);
+}
+
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.sidebar-note {
+  margin-top: var(--space-5);
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* ---- Lightbox ---- */
+.lightbox-image-wrap {
+  max-width: 90vw;
+  max-height: 85vh;
+}
+
+.lightbox-image-wrap img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: var(--radius-sm);
+  object-fit: contain;
+}
+
+.lightbox-close,
+.lightbox-nav {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--duration-base) var(--ease-out);
+}
+
+.lightbox-close:hover,
+.lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.lightbox-close {
+  top: var(--space-5);
+  right: var(--space-5);
+}
+
+.lightbox-nav.prev {
+  left: var(--space-5);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lightbox-nav.next {
+  right: var(--space-5);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.related-section {
+  margin-top: var(--space-9);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+}

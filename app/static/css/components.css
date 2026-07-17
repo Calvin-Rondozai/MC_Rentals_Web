@@ -1,0 +1,228 @@
+/* ==========================================================================
+   MC Properties — Reusable components: house cards, filter bar, stat tiles
+   ========================================================================== */
+
+.house-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.house-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.house-card-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: var(--color-surface-alt);
+}
+
+.house-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.house-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-border-strong);
+}
+
+.house-card-placeholder svg {
+  width: 48px;
+  height: 48px;
+}
+
+.house-card-badge {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.house-card-body {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.house-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.house-card-title {
+  font-size: var(--text-md);
+  margin: 0;
+  line-height: var(--leading-snug);
+}
+
+.house-card-title a:hover {
+  color: var(--color-gold-700);
+}
+
+.house-card-price {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-heading-strong);
+  white-space: nowrap;
+  font-size: var(--text-md);
+}
+
+.house-card-price span {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.house-card-location {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.house-card-location .icon { color: var(--color-gold-600); }
+
+.house-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  padding-block: var(--space-2);
+  border-block: 1px solid var(--color-border);
+}
+
+.house-card-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.house-card-type {
+  margin-left: auto;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-gold-700);
+  text-transform: capitalize;
+}
+
+.house-card-body .btn-outline {
+  margin-top: auto;
+}
+
+/* ---- Filter bar ---- */
+.filter-bar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-5);
+}
+
+.filter-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-4);
+  align-items: end;
+}
+
+.filter-form .field {
+  margin-bottom: 0;
+}
+
+.filter-form .filter-submit {
+  grid-column: span 1;
+}
+
+@media (max-width: 640px) {
+  .filter-form {
+    grid-template-columns: 1fr 1fr;
+  }
+  .filter-form .filter-submit {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---- Stat tiles ---- */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-5);
+}
+
+.stat-tile {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  text-align: center;
+}
+
+.stat-tile .stat-number {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: var(--text-xl);
+  color: var(--color-gold-700);
+  display: block;
+}
+
+.stat-tile .stat-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* ---- Amenity chips ---- */
+.amenity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-4);
+}
+
+.amenity-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.amenity-chip .icon {
+  width: 22px;
+  height: 22px;
+  color: var(--color-gold-600);
+  flex-shrink: 0;
+}
+
+.amenity-chip span {
+  font-weight: 500;
+  font-size: var(--text-sm);
+}
+
+/* ---- Section divider look ---- */
+.surface-alt {
+  background: var(--color-surface-alt);
+}

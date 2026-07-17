@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% block title %}{{ house.title }} | {{ site_name }}{% endblock %}
+{% block meta_description %}{{ house.title }} in {{ house.location }}: {{ house.description[:140] }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/house-detail.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="detail-hero">
+  <div class="container">
+    <nav class="breadcrumbs">
+      <a href="{{ url_for('public.home') }}">Home</a> /
+      <a href="{{ url_for('public.listings') }}">Listings</a> /
+      <span>{{ house.title }}</span>
+    </nav>
+
+    {% if house.images %}
+    <div class="gallery" data-reveal>
+      <div class="gallery-main">
+        <img data-gallery-main src="{{ url_for('static', filename='uploads/' ~ house.primary_image.filename) }}" alt="{{ house.title }}">
+        <span class="badge gallery-badge {{ 'badge-available' if house.status == 'available' else 'badge-occupied' }}">
+          {{ 'Available' if house.status == 'available' else 'Occupied' }}
+        </span>
+      </div>
+      {% if house.images|length > 1 %}
+      <div class="gallery-thumbs">
+        {% for image in house.images %}
+        <button type="button" data-gallery-thumb data-full="{{ url_for('static', filename='uploads/' ~ image.filename) }}" class="{{ 'is-active' if image.is_primary }}">
+          <img src="{{ url_for('static', filename='uploads/' ~ image.filename) }}" alt="Photo {{ loop.index }} of {{ house.title }}">
+        </button>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% else %}
+    <div class="gallery-main card empty-state" data-reveal>
+      {{ icon('empty-house') }}
+      <p>No photos uploaded for this listing yet.</p>
+    </div>
+    {% endif %}
+
+    <div class="detail-layout">
+      <div>
+        <div class="detail-title-row" data-reveal>
+          <div>
+            <h1>{{ house.title }}</h1>
+            <div class="detail-location">
+              {{ icon('pin') }} {{ house.address or house.location }}
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-meta-row" data-reveal>
+          {% if house.bedrooms %}
+          <div class="detail-meta-item">
+            {{ icon('bed') }}
+            <div><strong>{{ house.bedrooms }}</strong><span>Bedroom{{ 's' if house.bedrooms != 1 }}</span></div>
+          </div>
+          {% endif %}
+          {% if house.bathrooms %}
+          <div class="detail-meta-item">
+            {{ icon('bath') }}
+            <div><strong>{{ house.bathrooms }}</strong><span>Bathroom{{ 's' if house.bathrooms != 1 }}</span></div>
+          </div>
+          {% endif %}
+          <div class="detail-meta-item">
+            {{ icon('building') }}
+            <div><strong>{{ house.property_type | capitalize }}</strong><span>Property Type</span></div>
+          </div>
+          <div class="detail-meta-item">
+            {{ icon('calendar') }}
+            <div><strong>{{ 'Now' if house.status == 'available' else 'Occupied' }}</strong><span>Availability</span></div>
+          </div>
+        </div>
+
+        <div class="detail-section" data-reveal>
+          <h2>About This Property</h2>
+          <p style="white-space: pre-line; max-width: none;">{{ house.description }}</p>
+        </div>
+
+        <div class="detail-section" data-reveal>
+          <h2>Amenities &amp; Utilities</h2>
+          {% if house.amenity_list %}
+          <div class="amenity-grid">
+            {% for key, label in house.amenity_list %}
+            <div class="amenity-chip">
+              {{ icon(key) }}
+              <span>{{ label }}</span>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p>No amenity details have been added for this listing yet. Ask us directly for specifics.</p>
+          {% endif %}
+
+          {% if house.other_amenities %}
+          <p style="margin-top: var(--space-4); white-space: pre-line;">{{ house.other_amenities }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <aside>
+        <div class="sidebar-card" data-reveal data-reveal="right">
+          <span class="badge {{ 'badge-available' if house.status == 'available' else 'badge-occupied' }}">
+            {{ 'Available Now' if house.status == 'available' else 'Currently Occupied' }}
+          </span>
+          <div class="sidebar-price">
+            {{ house.price | currency }} <span>/ {{ house.price_period }}</span>
+          </div>
+
+          <div class="sidebar-actions">
+            <a class="btn btn-whatsapp btn-block"
+               href="{{ whatsapp_number | whatsapp_url('Hi, I\'m interested in \"' ~ house.title ~ '\" (' ~ house.location ~ '). Is it still available?') }}"
+               target="_blank" rel="noopener">
+              {{ icon('whatsapp') }} Enquire on WhatsApp
+            </a>
+            <a class="btn btn-dark btn-block" href="{{ phone_number | tel_url }}">
+              {{ icon('phone') }} Call {{ phone_number }}
+            </a>
+          </div>
+
+          <div class="sidebar-note">
+            {{ icon('shield-check', 'icon icon-sm') }}
+            <span>Always view a property and meet the landlord/agent in person before making any payment.</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    {% if related %}
+    <div class="related-section">
+      <div class="section-heading" data-reveal>
+        <div class="eyebrow">Nearby</div>
+        <h2>More In {{ house.location }}</h2>
+      </div>
+      <div class="house-grid">
+        {% for house in related %}
+          {% include "partials/house_card.html" %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<div class="overlay" data-lightbox data-open="false">
+  <div class="overlay-backdrop"></div>
+  <button class="lightbox-close" data-lightbox-close type="button" aria-label="Close">{{ icon('close') }}</button>
+  {% if house.images|length > 1 %}
+  <button class="lightbox-nav prev" data-lightbox-prev type="button" aria-label="Previous photo">{{ icon('chevron-left') }}</button>
+  <button class="lightbox-nav next" data-lightbox-next type="button" aria-label="Next photo">{{ icon('chevron-right') }}</button>
+  {% endif %}
+  <div class="overlay-content lightbox-image-wrap">
+    <img data-lightbox-image src="" alt="{{ house.title }} full size photo">
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/gallery.js') }}"></script>
+{% endblock %}

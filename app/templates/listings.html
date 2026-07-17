@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% block title %}Available Homes & Rooms | {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/listings.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="page-banner">
+  <div class="container">
+    <h1 data-reveal>Browse Homes &amp; Rooms To Rent</h1>
+    <p data-reveal style="--reveal-delay:60ms">{{ houses | length }} listings match your search across all locations.</p>
+  </div>
+</section>
+
+<section class="listings-body">
+  <div class="container">
+    <div class="filter-bar card" data-reveal>
+      <form class="filter-form" method="get" action="{{ url_for('public.listings') }}">
+        <div class="field">
+          <label for="q">Search</label>
+          <input type="search" id="q" name="q" placeholder="Title, area, keyword..." value="{{ filters.q }}">
+        </div>
+
+        <div class="field">
+          <label for="location">Location</label>
+          <select id="location" name="location">
+            <option value="">All Areas</option>
+            {% for loc in locations %}
+            <option value="{{ loc }}" {{ 'selected' if filters.location == loc }}>{{ loc }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="type">Type</label>
+          <select id="type" name="type">
+            <option value="">Any Type</option>
+            <option value="house" {{ 'selected' if filters.type == 'house' }}>House</option>
+            <option value="apartment" {{ 'selected' if filters.type == 'apartment' }}>Apartment</option>
+            <option value="room" {{ 'selected' if filters.type == 'room' }}>Room</option>
+            <option value="cottage" {{ 'selected' if filters.type == 'cottage' }}>Cottage</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="status">Availability</label>
+          <select id="status" name="status">
+            <option value="">Any Status</option>
+            <option value="available" {{ 'selected' if filters.status == 'available' }}>Available</option>
+            <option value="occupied" {{ 'selected' if filters.status == 'occupied' }}>Occupied</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="min_price">Min Price</label>
+          <input type="number" id="min_price" name="min_price" min="0" placeholder="0" value="{{ filters.min_price }}" data-min-price>
+        </div>
+
+        <div class="field">
+          <label for="max_price">Max Price</label>
+          <input type="number" id="max_price" name="max_price" min="0" placeholder="Any" value="{{ filters.max_price }}" data-max-price>
+        </div>
+
+        <div class="field">
+          <label for="bedrooms">Min Bedrooms</label>
+          <select id="bedrooms" name="bedrooms">
+            <option value="">Any</option>
+            {% for n in range(1, 6) %}
+            <option value="{{ n }}" {{ 'selected' if filters.bedrooms == n|string }}>{{ n }}+</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field filter-submit">
+          <label class="visually-hidden">Apply</label>
+          <button type="submit" class="btn btn-primary btn-block">{{ icon('search') }} Filter</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="results-header">
+      <span class="results-count">{{ houses | length }} result{{ 's' if houses|length != 1 }}</span>
+      <a href="{{ url_for('public.listings') }}" class="btn btn-ghost btn-sm">Clear Filters</a>
+    </div>
+
+    {% if houses %}
+    <div class="house-grid">
+      {% for house in houses %}
+        {% include "partials/house_card.html" %}
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state card">
+      {{ icon('empty-house') }}
+      <h3>No matches yet</h3>
+      <p>Try widening your search: clear a filter or check back soon as new homes are added regularly.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

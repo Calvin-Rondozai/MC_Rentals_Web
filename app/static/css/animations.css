@@ -1,0 +1,163 @@
+/* ==========================================================================
+   MC Properties — Motion utilities
+   Scroll-reveal driven by JS toggling [data-inview], honoring
+   prefers-reduced-motion via the global override in base.css.
+   ========================================================================== */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal][data-inview="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-reveal="scale"] {
+  transform: scale(0.94);
+}
+
+[data-reveal="scale"][data-inview="true"] {
+  transform: scale(1);
+}
+
+[data-reveal="left"] {
+  transform: translateX(-24px);
+}
+
+[data-reveal="left"][data-inview="true"] {
+  transform: translateX(0);
+}
+
+[data-reveal="right"] {
+  transform: translateX(24px);
+}
+
+[data-reveal="right"][data-inview="true"] {
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---- Hover lift for cards ---- */
+.hover-lift {
+  transition: transform var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ---- Image zoom on card hover ---- */
+.media-zoom {
+  overflow: hidden;
+}
+
+.media-zoom img {
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.media-zoom:hover img {
+  transform: scale(1.07);
+}
+
+/* ---- Fade-in for lazy images ---- */
+img.lazy-fade {
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+img.lazy-fade.is-loaded {
+  opacity: 1;
+}
+
+/* ---- Skeleton shimmer ---- */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface-alt);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  animation: shimmer 1.4s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+  }
+}
+
+@keyframes shimmer {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+/* ---- Count-up number ---- */
+.count-up {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Stagger helper (JS sets --reveal-delay inline per item) ---- */
+
+/* ---- Modal / lightbox ---- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out), visibility var(--duration-base);
+}
+
+.overlay[data-open="true"] {
+  visibility: visible;
+  opacity: 1;
+}
+
+.overlay-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 15, 32, 0.82);
+}
+
+.overlay-content {
+  position: relative;
+  transform: scale(0.92);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.overlay[data-open="true"] .overlay-content {
+  transform: scale(1);
+}
+
+/* ---- Loading spinner ---- */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, 0.4);
+  border-top-color: currentColor;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

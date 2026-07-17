@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <h1 data-reveal>Find a home that actually feels like <em>yours</em>.</h1>
+      <p class="lead" data-reveal data-reveal-group="hero" style="--reveal-delay: 80ms">
+        Browse verified houses and rooms to rent, with full descriptions, real photos, honest pricing,
+        and clear details on water, electricity and backup power before you ever pick up the phone.
+      </p>
+      <div class="hero-actions" data-reveal data-reveal-group="hero" style="--reveal-delay: 140ms">
+        <a href="{{ url_for('public.listings') }}" class="btn btn-primary">
+          {{ icon('search') }} Browse Available Homes
+        </a>
+        <a href="{{ whatsapp_number | whatsapp_url('Hi, I would like to enquire about renting a property.') }}" class="btn btn-whatsapp" target="_blank" rel="noopener">
+          {{ icon('whatsapp') }} Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-search" data-reveal data-reveal="scale" data-reveal-group="hero" style="--reveal-delay: 200ms">
+      <form action="{{ url_for('public.listings') }}" method="get">
+        <div class="field">
+          <label for="q" class="visually-hidden">Search</label>
+          <input type="search" id="q" name="q" placeholder="Search by area, e.g. Sandton, Rosebank...">
+        </div>
+        <div class="field">
+          <label for="type" class="visually-hidden">Type</label>
+          <select id="type" name="type">
+            <option value="">Any Type</option>
+            <option value="house">House</option>
+            <option value="apartment">Apartment</option>
+            <option value="room">Room</option>
+            <option value="cottage">Cottage</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="status" class="visually-hidden">Availability</label>
+          <select id="status" name="status">
+            <option value="available" selected>Available Now</option>
+            <option value="">Any Status</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-dark">{{ icon('search') }} <span>Search</span></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="trust-strip">
+  <div class="container stat-row">
+    <div class="stat-tile" data-reveal>
+      <span class="stat-number count-up" data-count-to="{{ stats.total }}">0</span>
+      <span class="stat-label">Listed Properties</span>
+    </div>
+    <div class="stat-tile" data-reveal style="--reveal-delay: 60ms">
+      <span class="stat-number count-up" data-count-to="{{ stats.available }}">0</span>
+      <span class="stat-label">Available Right Now</span>
+    </div>
+    <div class="stat-tile" data-reveal style="--reveal-delay: 120ms">
+      <span class="stat-number count-up" data-count-to="{{ stats.locations }}">0</span>
+      <span class="stat-label">Areas Covered</span>
+    </div>
+    <div class="stat-tile" data-reveal style="--reveal-delay: 180ms">
+      <span class="stat-number">24/7</span>
+      <span class="stat-label">WhatsApp Response</span>
+    </div>
+  </div>
+</section>
+
+<section class="featured-section surface-alt">
+  <div class="container">
+    <div class="featured-header">
+      <div class="section-heading" data-reveal>
+        <div class="eyebrow">Fresh On The Market</div>
+        <h2>Featured Listings</h2>
+        <p>A hand-picked look at homes currently available to rent.</p>
+      </div>
+      <a href="{{ url_for('public.listings') }}" class="btn btn-outline" data-reveal>
+        View All Listings {{ icon('arrow-right', 'icon icon-sm') }}
+      </a>
+    </div>
+
+    {% if featured %}
+    <div class="house-grid">
+      {% for house in featured %}
+        {% include "partials/house_card.html" %}
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state card">
+      {{ icon('empty-house') }}
+      <p>No listings yet. Check back soon, new homes are added regularly.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="section-heading" data-reveal>
+      <div class="eyebrow">Simple Process</div>
+      <h2>How It Works</h2>
+      <p>No middlemen, no confusing paperwork upfront. Just clear information and a direct line to us.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step-card" data-reveal>
+        <div class="step-number">1</div>
+        <h3>Browse Listings</h3>
+        <p>Filter by area, price, and property type to find homes that match your budget and lifestyle.</p>
+      </div>
+      <div class="step-card" data-reveal style="--reveal-delay: 80ms">
+        <div class="step-number">2</div>
+        <h3>Check The Details</h3>
+        <p>Every listing shows real photos, amenities, and utility availability: water, electricity, backup power and more.</p>
+      </div>
+      <div class="step-card" data-reveal style="--reveal-delay: 160ms">
+        <div class="step-number">3</div>
+        <h3>Contact Us Directly</h3>
+        <p>Message us on WhatsApp or call to ask questions, arrange a viewing, or confirm availability.</p>
+      </div>
+    </div>
+
+    <div class="cta-band" data-reveal>
+      <div>
+        <h2>Ready to find your next home?</h2>
+        <p>Our team responds fast on WhatsApp, no waiting on hold.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="{{ whatsapp_number | whatsapp_url('Hi, I would like to enquire about renting a property.') }}" class="btn btn-whatsapp" target="_blank" rel="noopener">
+          {{ icon('whatsapp') }} Message Us
+        </a>
+        <a href="{{ phone_number | tel_url }}" class="btn btn-outline" style="background:transparent;border-color:rgba(255,255,255,0.3);color:#fff;">
+          {{ icon('phone') }} Call Now
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

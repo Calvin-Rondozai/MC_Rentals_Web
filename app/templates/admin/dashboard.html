@@ -1,0 +1,104 @@
+{% extends "admin/_layout.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% block title %}Dashboard | {{ site_name }} Admin{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-topbar">
+  <div>
+    <h1>Dashboard</h1>
+    <p class="text-muted">Manage your listings, availability, and occupant records.</p>
+  </div>
+  <a href="{{ url_for('admin.house_new') }}" class="btn btn-primary">{{ icon('plus') }} Add New Listing</a>
+</div>
+
+<div class="stat-row" style="margin-bottom: var(--space-8);">
+  <div class="stat-tile">
+    <span class="stat-number">{{ stats.total }}</span>
+    <span class="stat-label">Total Listings</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-number">{{ stats.available }}</span>
+    <span class="stat-label">Available</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-number">{{ stats.occupied }}</span>
+    <span class="stat-label">Occupied</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-number">{{ stats.occupants }}</span>
+    <span class="stat-label">Occupant Records</span>
+  </div>
+</div>
+
+{% if houses %}
+<div class="table-wrap">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Photo</th>
+        <th>Title</th>
+        <th>Location</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th>Occupants</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for house in houses %}
+      <tr>
+        <td>
+          {% if house.primary_image %}
+          <img class="thumb" src="{{ url_for('static', filename='uploads/' ~ house.primary_image.filename) }}" alt="{{ house.title }}">
+          {% else %}
+          <div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--color-border-strong);">{{ icon('empty-house', 'icon icon-sm') }}</div>
+          {% endif %}
+        </td>
+        <td>
+          <a href="{{ url_for('public.house_detail', house_id=house.id) }}" target="_blank" style="font-weight:600;">{{ house.title }}</a>
+          <div class="text-muted" style="font-size: var(--text-xs);">{{ house.property_type | capitalize }}</div>
+        </td>
+        <td>{{ house.location }}</td>
+        <td>{{ house.price | currency }}/{{ house.price_period }}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin.house_toggle_status', house_id=house.id) }}">
+            <button type="submit" class="status-toggle" title="Toggle availability">
+              <span class="switch-track {{ 'is-on' if house.status == 'available' }}">
+                <span class="switch-thumb"></span>
+              </span>
+              <span class="badge {{ 'badge-available' if house.status == 'available' else 'badge-occupied' }}">
+                {{ 'Available' if house.status == 'available' else 'Occupied' }}
+              </span>
+            </button>
+          </form>
+        </td>
+        <td>
+          <a href="{{ url_for('admin.occupants_list', house_id=house.id) }}" class="btn btn-ghost btn-sm">
+            {{ icon('users', 'icon icon-sm') }} {{ house.occupants | length }}
+          </a>
+        </td>
+        <td>
+          <div class="table-actions">
+            <a href="{{ url_for('admin.house_edit', house_id=house.id) }}" class="icon-btn" title="Edit listing">{{ icon('edit') }}</a>
+            <form method="post" action="{{ url_for('admin.house_delete', house_id=house.id) }}" data-confirm="Delete &quot;{{ house.title }}&quot;? This also removes its photos and occupant records. This cannot be undone.">
+              <button type="submit" class="icon-btn danger" title="Delete listing">{{ icon('trash') }}</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state card">
+  {{ icon('empty-house') }}
+  <h3>No listings yet</h3>
+  <p>Add your first house or room to get started.</p>
+  <a href="{{ url_for('admin.house_new') }}" class="btn btn-primary" style="margin-top: var(--space-4);">{{ icon('plus') }} Add Listing</a>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "admin/_layout.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% block title %}Occupants | {{ house.title }}{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-topbar">
+  <div>
+    <h1>Occupant Records</h1>
+    <p class="text-muted">For <strong>{{ house.title }}</strong> in {{ house.location }}</p>
+  </div>
+  <div style="display:flex; gap: var(--space-3);">
+    <a href="{{ url_for('admin.house_edit', house_id=house.id) }}" class="btn btn-outline">Back to Listing</a>
+    <a href="{{ url_for('admin.occupant_new', house_id=house.id) }}" class="btn btn-primary">{{ icon('plus') }} Add Occupant</a>
+  </div>
+</div>
+
+{% if house.occupants %}
+  {% for occupant in house.occupants | sort(attribute='move_in_date', reverse=true) %}
+  <div class="occupant-card {{ 'is-past' if not occupant.is_active }}">
+    <div class="occupant-info">
+      <h3>{{ occupant.full_name }}
+        {% if occupant.is_active %}<span class="badge badge-available">Active</span>{% else %}<span class="badge badge-occupied">Past</span>{% endif %}
+      </h3>
+      <div class="occupant-meta">
+        <span>{{ icon('phone', 'icon icon-sm') }} <a href="{{ occupant.phone | tel_url }}">{{ occupant.phone }}</a></span>
+        {% if occupant.email %}<span>{{ occupant.email }}</span>{% endif %}
+        <span>{{ icon('calendar', 'icon icon-sm') }} Moved in {{ occupant.move_in_date.strftime('%d %b %Y') }}</span>
+        {% if occupant.lease_end_date %}<span>Lease ends {{ occupant.lease_end_date.strftime('%d %b %Y') }}</span>{% endif %}
+        {% if occupant.rent_amount %}<span>{{ occupant.rent_amount | currency }} agreed rent</span>{% endif %}
+      </div>
+      {% if occupant.notes %}<p style="margin-top: var(--space-3); max-width: 60ch;">{{ occupant.notes }}</p>{% endif %}
+    </div>
+    <div class="table-actions">
+      <a href="{{ url_for('admin.occupant_edit', occupant_id=occupant.id) }}" class="icon-btn" title="Edit">{{ icon('edit') }}</a>
+      <form method="post" action="{{ url_for('admin.occupant_delete', occupant_id=occupant.id) }}" data-confirm="Remove {{ occupant.full_name }}'s record?">
+        <button type="submit" class="icon-btn danger" title="Delete">{{ icon('trash') }}</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+<div class="empty-state card">
+  {{ icon('users') }}
+  <h3>No occupants on record</h3>
+  <p>Add an occupant once this property is rented out to keep a history of tenants.</p>
+  <a href="{{ url_for('admin.occupant_new', house_id=house.id) }}" class="btn btn-primary" style="margin-top: var(--space-4);">{{ icon('plus') }} Add Occupant</a>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends "admin/_layout.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% block title %}{{ 'Edit Listing' if house else 'Add Listing' }} | {{ site_name }} Admin{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-topbar">
+  <div>
+    <h1>{{ 'Edit Listing' if house else 'Add New Listing' }}</h1>
+    <p class="text-muted">{{ 'Update details, availability and photos.' if house else 'Fill in the details tenants will see on the public site.' }}</p>
+  </div>
+  <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline">Back to Dashboard</a>
+</div>
+
+<form method="post" enctype="multipart/form-data" novalidate>
+  {{ form.hidden_tag() }}
+
+  <div class="form-grid">
+    <div class="card form-card">
+      <h2 style="font-size: var(--text-md);">Property Details</h2>
+
+      <div class="field">
+        <label for="{{ form.title.id }}" class="required">Title</label>
+        {{ form.title(id=form.title.id, placeholder="e.g. Sunny 2-Bed Apartment in Rosebank") }}
+        {% for error in form.title.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+      </div>
+
+      <div class="field">
+        <label for="{{ form.description.id }}" class="required">Description</label>
+        {{ form.description(id=form.description.id, placeholder="Describe the property, the neighborhood, and anything a tenant should know.") }}
+        {% for error in form.description.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="{{ form.property_type.id }}" class="required">Property Type</label>
+          {{ form.property_type(id=form.property_type.id) }}
+        </div>
+        <div class="field">
+          <label for="{{ form.bedrooms.id }}">Bedrooms</label>
+          {{ form.bedrooms(id=form.bedrooms.id, min="0") }}
+        </div>
+        <div class="field">
+          <label for="{{ form.bathrooms.id }}">Bathrooms</label>
+          {{ form.bathrooms(id=form.bathrooms.id, min="0") }}
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="{{ form.location.id }}" class="required">Location / Area</label>
+          {{ form.location(id=form.location.id, placeholder="e.g. Rosebank, Johannesburg") }}
+          {% for error in form.location.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+        </div>
+        <div class="field">
+          <label for="{{ form.address.id }}">Full Address (optional, private)</label>
+          {{ form.address(id=form.address.id, placeholder="Shared with tenants after enquiry") }}
+        </div>
+      </div>
+
+      <h2 style="font-size: var(--text-md); margin-top: var(--space-6);">Pricing &amp; Availability</h2>
+      <div class="field-row">
+        <div class="field">
+          <label for="{{ form.price.id }}" class="required">Price</label>
+          {{ form.price(id=form.price.id, min="0", step="0.01") }}
+          {% for error in form.price.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+        </div>
+        <div class="field">
+          <label for="{{ form.price_period.id }}" class="required">Billing Period</label>
+          {{ form.price_period(id=form.price_period.id) }}
+        </div>
+        <div class="field">
+          <label for="{{ form.status.id }}" class="required">Status</label>
+          {{ form.status(id=form.status.id) }}
+        </div>
+      </div>
+
+      <h2 style="font-size: var(--text-md); margin-top: var(--space-6);">Amenities &amp; Utilities</h2>
+      <div class="checkbox-grid">
+        <div class="checkbox-item">{{ form.has_water }} <label for="{{ form.has_water.id }}">{{ form.has_water.label.text }}</label></div>
+        <div class="checkbox-item">{{ form.has_electricity }} <label for="{{ form.has_electricity.id }}">{{ form.has_electricity.label.text }}</label></div>
+        <div class="checkbox-item">{{ form.has_backup_power }} <label for="{{ form.has_backup_power.id }}">{{ form.has_backup_power.label.text }}</label></div>
+        <div class="checkbox-item">{{ form.has_wifi }} <label for="{{ form.has_wifi.id }}">{{ form.has_wifi.label.text }}</label></div>
+        <div class="checkbox-item">{{ form.has_security }} <label for="{{ form.has_security.id }}">{{ form.has_security.label.text }}</label></div>
+        <div class="checkbox-item">{{ form.has_parking }} <label for="{{ form.has_parking.id }}">{{ form.has_parking.label.text }}</label></div>
+        <div class="checkbox-item">{{ form.is_furnished }} <label for="{{ form.is_furnished.id }}">{{ form.is_furnished.label.text }}</label></div>
+      </div>
+
+      <div class="field" style="margin-top: var(--space-5);">
+        <label for="{{ form.other_amenities.id }}">Other Amenities (optional)</label>
+        {{ form.other_amenities(id=form.other_amenities.id, placeholder="e.g. Fibre-ready, borehole water backup, garden") }}
+      </div>
+    </div>
+
+    <div class="card form-card">
+      <h2 style="font-size: var(--text-md);">Photos</h2>
+
+      <div class="dropzone" data-dropzone>
+        {{ icon('building') }}
+        <p style="margin:0;">Drag &amp; drop photos here, or click to browse</p>
+        <p class="help-text" style="margin:0;">PNG, JPG or WEBP. First photo becomes the cover unless you choose otherwise.</p>
+      </div>
+      {{ form.images(data_image_input=true, style="display:none;", multiple=true, accept="image/png,image/jpeg,image/webp") }}
+      <div class="image-preview-grid" data-image-preview></div>
+      {% for error in form.images.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+
+      {% if house and house.images %}
+      <h3 style="font-size: var(--text-sm); margin-top: var(--space-6);">Existing Photos</h3>
+      <div class="existing-images-grid">
+        {% for image in house.images %}
+        <div class="existing-image-thumb">
+          <img src="{{ url_for('static', filename='uploads/' ~ image.filename) }}" alt="Photo of {{ house.title }}">
+          {% if image.is_primary %}<span class="primary-tag">Cover</span>{% endif %}
+          <form method="post" action="{{ url_for('admin.image_delete', house_id=house.id, image_id=image.id) }}" data-confirm="Remove this photo?">
+            <button type="submit" title="Delete photo">{{ icon('close') }}</button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top: var(--space-7);">
+        {{ icon('check') }} {{ 'Save Changes' if house else 'Publish Listing' }}
+      </button>
+
+      {% if house %}
+      <a href="{{ url_for('admin.occupants_list', house_id=house.id) }}" class="btn btn-outline btn-block" style="margin-top: var(--space-3);">
+        {{ icon('users') }} Manage Occupants
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

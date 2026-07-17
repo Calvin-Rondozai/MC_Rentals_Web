@@ -1,0 +1,76 @@
+{% extends "admin/_layout.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% block title %}Admin Users | {{ site_name }} Admin{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-topbar">
+  <div>
+    <h1>Admin Users</h1>
+    <p class="text-muted">Everyone listed here can add, edit and delete listings.</p>
+  </div>
+</div>
+
+<div class="form-grid">
+  <div class="table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Added</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for admin in admins %}
+        <tr>
+          <td style="font-weight:600;">
+            {{ admin.username }}
+            {% if admin.id == current_user.id %}<span class="badge badge-available" style="margin-left:8px;">You</span>{% endif %}
+          </td>
+          <td>{{ admin.created_at.strftime('%d %b %Y') }}</td>
+          <td>
+            {% if admin.id != current_user.id and admins|length > 1 %}
+            <form method="post" action="{{ url_for('admin.admin_delete', admin_id=admin.id) }}" data-confirm="Remove admin account '{{ admin.username }}'?">
+              <button type="submit" class="icon-btn danger" title="Remove admin">{{ icon('trash') }}</button>
+            </form>
+            {% else %}
+            <span class="text-muted" style="font-size: var(--text-xs);">N/A</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card form-card">
+    <h2 style="font-size: var(--text-md);">Add New Admin</h2>
+    <form method="post" novalidate>
+      {{ form.hidden_tag() }}
+
+      <div class="field">
+        <label for="{{ form.username.id }}" class="required">Username</label>
+        {{ form.username(id=form.username.id) }}
+        {% for error in form.username.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+      </div>
+
+      <div class="field">
+        <label for="{{ form.password.id }}" class="required">Password</label>
+        {{ form.password(id=form.password.id) }}
+        {% for error in form.password.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+      </div>
+
+      <div class="field">
+        <label for="{{ form.confirm_password.id }}" class="required">Confirm Password</label>
+        {{ form.confirm_password(id=form.confirm_password.id) }}
+        {% for error in form.confirm_password.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">{{ icon('plus') }} Create Admin</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

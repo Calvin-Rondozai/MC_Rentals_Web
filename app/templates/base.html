@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site_name }} | {{ site_tagline }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ site_name }}: browse available houses and rooms to rent, view full details, and contact us directly on WhatsApp or by phone.{% endblock %}">
+
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icon.png') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tokens.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+  {% block extra_css %}{% endblock %}
+
+  <script>
+    (function () {
+      var stored = localStorage.getItem("mc-theme");
+      if (stored) document.documentElement.setAttribute("data-theme", stored);
+    })();
+  </script>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+  {% include "partials/flash.html" %}
+
+  {% block header %}
+  {% include "partials/nav.html" %}
+  {% endblock %}
+
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block footer %}
+  {% include "partials/footer.html" %}
+  {% endblock %}
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
