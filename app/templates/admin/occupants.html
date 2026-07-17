@@ -35,6 +35,7 @@
     <div class="table-actions">
       <a href="{{ url_for('admin.occupant_edit', occupant_id=occupant.id) }}" class="icon-btn" title="Edit">{{ icon('edit') }}</a>
       <form method="post" action="{{ url_for('admin.occupant_delete', occupant_id=occupant.id) }}" data-confirm="Remove {{ occupant.full_name }}'s record?">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button type="submit" class="icon-btn danger" title="Delete">{{ icon('trash') }}</button>
       </form>
     </div>

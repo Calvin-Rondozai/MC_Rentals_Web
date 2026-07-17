@@ -1,5 +1,5 @@
 {% extends "admin/_layout.html" %}
-{% from "partials/icons.html" import icon %}
+{% from "partials/icons.html" import icon, status_badge %}
 
 {% block title %}Dashboard | {{ site_name }} Admin{% endblock %}
 
@@ -64,13 +64,12 @@
         <td>{{ house.price | currency }}/{{ house.price_period }}</td>
         <td>
           <form method="post" action="{{ url_for('admin.house_toggle_status', house_id=house.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button type="submit" class="status-toggle" title="Toggle availability">
               <span class="switch-track {{ 'is-on' if house.status == 'available' }}">
                 <span class="switch-thumb"></span>
               </span>
-              <span class="badge {{ 'badge-available' if house.status == 'available' else 'badge-occupied' }}">
-                {{ 'Available' if house.status == 'available' else 'Occupied' }}
-              </span>
+              {{ status_badge(house.status) }}
             </button>
           </form>
         </td>
@@ -83,6 +82,7 @@
           <div class="table-actions">
             <a href="{{ url_for('admin.house_edit', house_id=house.id) }}" class="icon-btn" title="Edit listing">{{ icon('edit') }}</a>
             <form method="post" action="{{ url_for('admin.house_delete', house_id=house.id) }}" data-confirm="Delete &quot;{{ house.title }}&quot;? This also removes its photos and occupant records. This cannot be undone.">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <button type="submit" class="icon-btn danger" title="Delete listing">{{ icon('trash') }}</button>
             </form>
           </div>

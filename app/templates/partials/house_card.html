@@ -1,4 +1,4 @@
-{% from "partials/icons.html" import icon %}
+{% from "partials/icons.html" import icon, status_badge %}
 <article class="house-card hover-lift" data-reveal data-reveal-group="{{ reveal_group | default('cards') }}">
   <a href="{{ url_for('public.house_detail', house_id=house.id) }}" class="house-card-media media-zoom">
     {% if house.primary_image %}
@@ -6,9 +6,7 @@
     {% else %}
     <div class="house-card-placeholder">{{ icon('empty-house', 'icon') }}</div>
     {% endif %}
-    <span class="badge house-card-badge {{ 'badge-available' if house.status == 'available' else 'badge-occupied' }}">
-      {{ 'Available' if house.status == 'available' else 'Occupied' }}
-    </span>
+    {{ status_badge(house.status, 'house-card-badge') }}
   </a>
 
   <div class="house-card-body">
@@ -26,8 +24,8 @@
     </div>
 
     <div class="house-card-meta">
-      {% if house.bedrooms %}<span>{{ icon('bed', 'icon icon-sm') }} {{ house.bedrooms }} Bed</span>{% endif %}
-      {% if house.bathrooms %}<span>{{ icon('bath', 'icon icon-sm') }} {{ house.bathrooms }} Bath</span>{% endif %}
+      {% if house.bedrooms is not none %}<span>{{ icon('bed', 'icon icon-sm') }} {{ house.bedrooms }} Bed</span>{% endif %}
+      {% if house.bathrooms is not none %}<span>{{ icon('bath', 'icon icon-sm') }} {{ house.bathrooms }} Bath</span>{% endif %}
       <span class="house-card-type">{{ house.property_type | capitalize }}</span>
     </div>
 

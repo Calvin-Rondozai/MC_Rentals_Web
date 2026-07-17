@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "partials/icons.html" import icon %}
+{% from "partials/icons.html" import icon, status_badge %}
 
 {% block title %}{{ house.title }} | {{ site_name }}{% endblock %}
 {% block meta_description %}{{ house.title }} in {{ house.location }}: {{ house.description[:140] }}{% endblock %}
@@ -22,9 +22,7 @@
     <div class="gallery" data-reveal>
       <div class="gallery-main">
         <img data-gallery-main src="{{ url_for('static', filename='uploads/' ~ house.primary_image.filename) }}" alt="{{ house.title }}">
-        <span class="badge gallery-badge {{ 'badge-available' if house.status == 'available' else 'badge-occupied' }}">
-          {{ 'Available' if house.status == 'available' else 'Occupied' }}
-        </span>
+        {{ status_badge(house.status, 'gallery-badge') }}
       </div>
       {% if house.images|length > 1 %}
       <div class="gallery-thumbs">
@@ -55,13 +53,13 @@
         </div>
 
         <div class="detail-meta-row" data-reveal>
-          {% if house.bedrooms %}
+          {% if house.bedrooms is not none %}
           <div class="detail-meta-item">
             {{ icon('bed') }}
             <div><strong>{{ house.bedrooms }}</strong><span>Bedroom{{ 's' if house.bedrooms != 1 }}</span></div>
           </div>
           {% endif %}
-          {% if house.bathrooms %}
+          {% if house.bathrooms is not none %}
           <div class="detail-meta-item">
             {{ icon('bath') }}
             <div><strong>{{ house.bathrooms }}</strong><span>Bathroom{{ 's' if house.bathrooms != 1 }}</span></div>

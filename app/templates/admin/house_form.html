@@ -111,8 +111,16 @@
         {% for image in house.images %}
         <div class="existing-image-thumb">
           <img src="{{ url_for('static', filename='uploads/' ~ image.filename) }}" alt="Photo of {{ house.title }}">
-          {% if image.is_primary %}<span class="primary-tag">Cover</span>{% endif %}
+          {% if image.is_primary %}
+          <span class="primary-tag">Cover</span>
+          {% else %}
+          <form method="post" action="{{ url_for('admin.image_make_primary', house_id=house.id, image_id=image.id) }}" style="position:absolute; bottom:4px; left:4px; top:auto; right:auto;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" title="Set as cover photo" style="width:auto; height:auto; border-radius: var(--radius-sm); padding: 2px 6px; font-size: 0.6rem;">Set Cover</button>
+          </form>
+          {% endif %}
           <form method="post" action="{{ url_for('admin.image_delete', house_id=house.id, image_id=image.id) }}" data-confirm="Remove this photo?">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button type="submit" title="Delete photo">{{ icon('close') }}</button>
           </form>
         </div>

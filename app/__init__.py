@@ -2,8 +2,8 @@ import os
 
 from flask import Flask
 
-from config import Config
-from app.extensions import db, login_manager
+from config import Config, INSTANCE_DIR
+from app.extensions import db, login_manager, csrf
 
 
 def create_app(config_class=Config):
@@ -11,12 +11,11 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-    db_uri = app.config["SQLALCHEMY_DATABASE_URI"]
-    if db_uri.startswith("sqlite:///"):
-        os.makedirs(os.path.dirname(db_uri.replace("sqlite:///", "", 1)), exist_ok=True)
+    os.makedirs(INSTANCE_DIR, exist_ok=True)
 
     db.init_app(app)
     login_manager.init_app(app)
+    csrf.init_app(app)
 
     from app.models import Admin
 

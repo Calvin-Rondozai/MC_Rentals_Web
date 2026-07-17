@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -5,6 +7,19 @@ from app.forms import LoginForm
 from app.models import Admin
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/admin")
+
+
+def _safe_next_url(candidate):
+    """Only allow redirecting to a same-site relative path, never an absolute
+    or scheme-relative URL, to prevent an open-redirect via ?next=."""
+    if not candidate:
+        return None
+    parsed = urlparse(candidate)
+    if parsed.netloc or parsed.scheme:
+        return None
+    if not candidate.startswith("/"):
+        return None
+    return candidate
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
@@ -17,7 +32,7 @@ def login():
         admin = Admin.query.filter_by(username=form.username.data.strip()).first()
         if admin and admin.check_password(form.password.data):
             login_user(admin)
-            next_page = request.args.get("next")
+            next_page = _safe_next_url(request.args.get("next"))
             flash(f"Welcome back, {admin.username}.", "success")
             return redirect(next_page or url_for("admin.dashboard"))
         flash("Invalid username or password.", "error")

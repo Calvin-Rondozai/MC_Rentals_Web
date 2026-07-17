@@ -1,24 +1,34 @@
+from flask import g
+
 from app.models import Setting
 from app.utils import whatsapp_link, tel_link
+
+
+def _cached_settings():
+    """Settings are read from the DB at most once per request, no matter how
+    many times the currency filter runs across a page of house cards."""
+    if "site_settings" not in g:
+        g.site_settings = {
+            "whatsapp_number": Setting.get("whatsapp_number", ""),
+            "phone_number": Setting.get("phone_number", ""),
+            "currency_symbol": Setting.get("currency_symbol", "$"),
+        }
+    return g.site_settings
 
 
 def register_helpers(app):
     @app.context_processor
     def inject_globals():
-        whatsapp_number = Setting.get("whatsapp_number", "")
-        phone_number = Setting.get("phone_number", "")
-        currency_symbol = Setting.get("currency_symbol", "$")
+        settings = _cached_settings()
         return dict(
             site_name=app.config["SITE_NAME"],
             site_tagline=app.config["SITE_TAGLINE"],
-            whatsapp_number=whatsapp_number,
-            phone_number=phone_number,
-            currency_symbol=currency_symbol,
+            **settings,
         )
 
     @app.template_filter("currency")
     def currency_filter(value):
-        symbol = Setting.get("currency_symbol", "$")
+        symbol = _cached_settings()["currency_symbol"]
         try:
             return f"{symbol}{value:,.0f}"
         except (TypeError, ValueError):

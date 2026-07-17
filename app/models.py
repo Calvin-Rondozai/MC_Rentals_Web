@@ -64,11 +64,6 @@ class House(db.Model):
         return self.images[0] if self.images else None
 
     @property
-    def current_occupant(self):
-        active = [o for o in self.occupants if o.lease_end_date is None or o.lease_end_date >= date.today()]
-        return active[-1] if active else (self.occupants[-1] if self.occupants else None)
-
-    @property
     def amenity_list(self):
         items = []
         if self.has_water:

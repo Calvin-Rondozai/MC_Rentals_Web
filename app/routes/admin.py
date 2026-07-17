@@ -1,5 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, abort
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
+from sqlalchemy.orm import selectinload
+from PIL import UnidentifiedImageError
 
 from app.extensions import db
 from app.forms import HouseForm, OccupantForm, SettingsForm, AdminCreateForm
@@ -12,7 +14,11 @@ admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 @admin_bp.route("/")
 @login_required
 def dashboard():
-    houses = House.query.order_by(House.created_at.desc()).all()
+    houses = (
+        House.query.options(selectinload(House.images), selectinload(House.occupants))
+        .order_by(House.created_at.desc())
+        .all()
+    )
     stats = {
         "total": len(houses),
         "available": sum(1 for h in houses if h.status == "available"),
@@ -22,45 +28,40 @@ def dashboard():
     return render_template("admin/dashboard.html", houses=houses, stats=stats)
 
 
-HOUSE_FIELDS = [
-    "title",
-    "description",
-    "property_type",
-    "price",
-    "price_period",
-    "bedrooms",
-    "bathrooms",
-    "location",
-    "address",
-    "has_water",
-    "has_electricity",
-    "has_backup_power",
-    "has_wifi",
-    "has_security",
-    "has_parking",
-    "is_furnished",
-    "other_amenities",
-    "status",
-]
+# Derived from the model's own columns (minus ones the form never sets) so a
+# new House column/form field can't silently go un-persisted here.
+_NON_FORM_HOUSE_COLUMNS = {"id", "created_at", "updated_at"}
+HOUSE_FIELDS = [c.name for c in House.__table__.columns if c.name not in _NON_FORM_HOUSE_COLUMNS]
+
+_HOUSE_TEXT_FIELDS = {"title", "description", "location", "address", "other_amenities"}
 
 
 def _apply_house_form(house, form):
     for field_name in HOUSE_FIELDS:
-        setattr(house, field_name, getattr(form, field_name).data)
+        value = getattr(form, field_name).data
+        if field_name in _HOUSE_TEXT_FIELDS and isinstance(value, str):
+            value = value.strip()
+        setattr(house, field_name, value)
 
     files = request.files.getlist("images")
     uploaded = [f for f in files if f and f.filename]
     if uploaded:
         existing_count = len(house.images)
-        for i, file_storage in enumerate(uploaded):
-            filename = save_house_image(file_storage)
+        saved_count = 0
+        for file_storage in uploaded:
+            try:
+                filename = save_house_image(file_storage)
+            except UnidentifiedImageError:
+                flash(f'"{file_storage.filename}" is not a valid image and was skipped.', "error")
+                continue
             image = HouseImage(
                 house=house,
                 filename=filename,
-                is_primary=(existing_count == 0 and i == 0),
-                position=existing_count + i,
+                is_primary=(existing_count == 0 and saved_count == 0),
+                position=existing_count + saved_count,
             )
             db.session.add(image)
+            saved_count += 1
 
 
 @admin_bp.route("/houses/new", methods=["GET", "POST"])
@@ -110,7 +111,7 @@ def house_toggle_status(house_id):
     house.status = "occupied" if house.status == "available" else "available"
     db.session.commit()
     flash(f'"{house.title}" is now marked {house.status}.', "success")
-    return redirect(request.referrer or url_for("admin.dashboard"))
+    return redirect(url_for("admin.dashboard"))
 
 
 @admin_bp.route("/houses/<int:house_id>/images/<int:image_id>/delete", methods=["POST"])
@@ -181,9 +182,13 @@ def occupant_edit(occupant_id):
 @login_required
 def occupant_delete(occupant_id):
     occupant = Occupant.query.get_or_404(occupant_id)
-    house_id = occupant.house_id
+    house = occupant.house
+    house_id = house.id
     name = occupant.full_name
     db.session.delete(occupant)
+    db.session.flush()
+    if not any(o.id != occupant.id for o in house.occupants) and house.status == "occupied":
+        house.status = "available"
     db.session.commit()
     flash(f"{name}'s record was removed.", "info")
     return redirect(url_for("admin.occupants_list", house_id=house_id))
