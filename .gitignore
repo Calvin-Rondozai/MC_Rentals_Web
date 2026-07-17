@@ -1,6 +1,6 @@
 __pycache__/
 *.pyc
-.claude
+.claude/
 .venv/
 venv/
 instance/*.db
