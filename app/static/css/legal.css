@@ -1,0 +1,271 @@
+/* ==========================================================================
+   MC Rentals — Privacy Policy / Terms & Conditions pages
+   ========================================================================== */
+
+.legal-body {
+  padding-block: var(--space-7) var(--space-10);
+}
+
+.legal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--color-text-on-dark-muted);
+  margin-top: var(--space-2);
+}
+
+.legal-summary {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-6);
+  margin-top: calc(var(--space-8) * -1);
+  margin-bottom: var(--space-8);
+  position: relative;
+  z-index: 2;
+  box-shadow: var(--shadow-md);
+}
+
+.legal-summary h2 {
+  font-size: var(--text-md);
+  margin-bottom: var(--space-2);
+}
+
+.legal-summary ul {
+  margin: 0;
+  padding-left: var(--space-5);
+  color: var(--color-text-muted);
+}
+
+.legal-summary li {
+  margin-bottom: var(--space-2);
+}
+
+.legal-summary li:last-child {
+  margin-bottom: 0;
+}
+
+.legal-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .legal-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.legal-toc {
+  position: sticky;
+  top: calc(var(--space-8));
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+@media (max-width: 960px) {
+  .legal-toc {
+    position: static;
+    max-height: none;
+  }
+}
+
+.legal-toc-heading {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.legal-toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 960px) {
+  .legal-toc ol {
+    max-height: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+}
+
+.legal-toc a {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  transition: background var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out);
+}
+
+@media (max-width: 960px) {
+  .legal-toc a {
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-surface-alt);
+    border-radius: var(--radius-pill);
+  }
+}
+
+.legal-toc a:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-heading-strong);
+}
+
+.legal-content section {
+  padding-block: 0;
+  margin-bottom: var(--space-8);
+  scroll-margin-top: var(--space-7);
+}
+
+.legal-content section:last-child {
+  margin-bottom: 0;
+}
+
+.legal-content h2 {
+  font-size: var(--text-lg);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.legal-content .section-index {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.legal-content h3 {
+  font-size: var(--text-md);
+  margin-top: var(--space-5);
+}
+
+.legal-content p,
+.legal-content li {
+  color: var(--color-text-muted);
+  max-width: 74ch;
+}
+
+.legal-content ul,
+.legal-content ol.legal-list {
+  padding-left: 1.3rem;
+  margin: 0 0 var(--space-4);
+}
+
+.legal-content li {
+  margin-bottom: var(--space-2);
+}
+
+.legal-content strong {
+  color: var(--color-text);
+}
+
+.legal-table-wrap {
+  overflow-x: auto;
+  margin-bottom: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+table.legal-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  background: var(--color-surface);
+}
+
+.legal-table th,
+.legal-table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  vertical-align: top;
+}
+
+.legal-table th {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-surface-alt);
+}
+
+.legal-table tr:last-child td {
+  border-bottom: none;
+}
+
+.legal-callout {
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--text-sm);
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.legal-callout .icon {
+  color: var(--color-gold-600);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.legal-contact-card {
+  margin-top: var(--space-8);
+  padding: var(--space-6);
+}
+
+.legal-contact-card dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-4) 0 0;
+}
+
+@media (max-width: 560px) {
+  .legal-contact-card dl {
+    grid-template-columns: 1fr;
+  }
+}
+
+.legal-contact-card dt {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.legal-contact-card dd {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.legal-placeholder {
+  color: var(--color-danger);
+  font-style: italic;
+}
+
+.legal-footer-links {
+  margin-top: var(--space-6);
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}

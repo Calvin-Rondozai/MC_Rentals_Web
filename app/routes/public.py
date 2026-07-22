@@ -91,3 +91,13 @@ def house_detail(house_id):
         .all()
     )
     return render_template("house_detail.html", house=house, related=related)
+
+
+@public_bp.route("/privacy-policy")
+def privacy_policy():
+    return render_template("privacy_policy.html")
+
+
+@public_bp.route("/terms")
+def terms():
+    return render_template("terms.html")

@@ -24,8 +24,8 @@ def _safe_next_url(candidate):
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for("admin.dashboard"))
+    if current_user.is_authenticated and request.method == "GET":
+        logout_user()
 
     form = LoginForm()
     if form.validate_on_submit():

@@ -25,7 +25,7 @@ class Config:
     ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max upload
 
-    SITE_NAME = "MC Properties"
+    SITE_NAME = "MC Rentals"
     SITE_TAGLINE = "Find. Buy. Rent. Invest."
 
     SESSION_COOKIE_HTTPONLY = True

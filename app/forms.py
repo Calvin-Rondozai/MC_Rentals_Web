@@ -81,3 +81,13 @@ class SettingsForm(FlaskForm):
     )
     phone_number = StringField("Phone Number (for calls, e.g. +27821234567)", validators=[DataRequired(), Length(max=20)])
     currency_symbol = StringField("Currency Symbol (e.g. $, R, £, KES)", validators=[DataRequired(), Length(max=6)])
+
+    legal_business_name = StringField(
+        "Registered Business Name (optional, shown on Privacy Policy / Terms)", validators=[Optional(), Length(max=150)]
+    )
+    legal_address = TextAreaField(
+        "Registered / Physical Business Address (shown on Privacy Policy / Terms)", validators=[Optional(), Length(max=500)]
+    )
+    legal_email = StringField(
+        "Contact Email for Privacy & Legal Requests", validators=[Optional(), Email(), Length(max=150)]
+    )

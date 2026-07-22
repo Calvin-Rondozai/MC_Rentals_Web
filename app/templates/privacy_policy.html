@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% set display_name = legal_business_name if legal_business_name else site_name %}
+
+{% block title %}Privacy Policy | {{ site_name }}{% endblock %}
+{% block meta_description %}How {{ site_name }} collects, uses, stores, and protects personal information, in line with Zimbabwe's Cyber and Data Protection Act [Chapter 12:07].{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/legal.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="page-banner">
+  <div class="container">
+    <div class="eyebrow" style="color: var(--color-gold-400);">Legal</div>
+    <h1>Privacy Policy</h1>
+    <p>How we collect, use, store, and protect your personal information.</p>
+    <div class="legal-meta">
+      <span>Effective date: 22 July 2026</span>
+      <span>Last updated: 22 July 2026</span>
+      <span>Governing law: Zimbabwe</span>
+    </div>
+  </div>
+</section>
+
+<section class="legal-body">
+  <div class="container">
+
+    <div class="legal-summary">
+      <h2>{{ icon('shield-check', 'icon icon-sm') }} Plain-language summary</h2>
+      <ul>
+        <li>We collect only the information needed to answer your enquiries and, if you become a tenant, to manage your tenancy.</li>
+        <li>We never sell your personal information, and we only share it with the third parties described below (mainly WhatsApp/telecom providers you choose to contact us through).</li>
+        <li>The website itself only stores a light/dark theme preference in your browser — we don't run advertising or tracking cookies.</li>
+        <li>Under Zimbabwe's Cyber and Data Protection Act [Chapter 12:07], you can ask us what we hold about you, correct it, or ask us to delete it — see <a href="#your-rights">Section 9</a>.</li>
+      </ul>
+    </div>
+
+    <div class="legal-layout">
+      <nav class="legal-toc" aria-label="Privacy Policy sections">
+        <div class="legal-toc-heading">On this page</div>
+        <ol>
+          <li><a href="#introduction">1. Introduction &amp; scope</a></li>
+          <li><a href="#who-we-are">2. Who we are</a></li>
+          <li><a href="#information-we-collect">3. Information we collect</a></li>
+          <li><a href="#how-we-use-it">4. How we use your information</a></li>
+          <li><a href="#legal-basis">5. Our legal basis for processing</a></li>
+          <li><a href="#cookies">6. Cookies &amp; local storage</a></li>
+          <li><a href="#sharing">7. Who we share information with</a></li>
+          <li><a href="#retention-security">8. Retention &amp; security</a></li>
+          <li><a href="#your-rights">9. Your rights</a></li>
+          <li><a href="#children">10. Children's privacy</a></li>
+          <li><a href="#complaints">11. Complaints to POTRAZ</a></li>
+          <li><a href="#changes">12. Changes to this policy</a></li>
+          <li><a href="#contact">13. Contact us</a></li>
+        </ol>
+      </nav>
+
+      <div class="legal-content">
+
+        <section id="introduction">
+          <h2><span class="section-index">1.</span> Introduction &amp; scope</h2>
+          <p>
+            {{ site_name }} ("<strong>we</strong>", "<strong>us</strong>", or "<strong>our</strong>") operates this
+            website to advertise houses and rooms available to rent in Zimbabwe, and to manage tenancies for the
+            properties we own or administer. This Privacy Policy explains what personal information we collect
+            when you browse the site, enquire about a property, or become a tenant, why we collect it, how long we
+            keep it, and the rights you have over it.
+          </p>
+          <p>
+            This policy is written to comply with Zimbabwe's <strong>Cyber and Data Protection Act [Chapter
+            12:07]</strong> ("the Act"), which is regulated by the <strong>Postal and Telecommunications
+            Regulatory Authority of Zimbabwe (POTRAZ)</strong> as the country's data protection authority. It
+            applies to everyone who visits this website or whose personal information we hold as a tenant or
+            prospective tenant, regardless of where you access the site from.
+          </p>
+          <div class="legal-callout">
+            {{ icon('building', 'icon') }}
+            <span>
+              This policy does not cover the practices of third-party services we link to or communicate through,
+              such as WhatsApp/Meta or your mobile network operator. Please read their own privacy policies before
+              using them to contact us.
+            </span>
+          </div>
+        </section>
+
+        <section id="who-we-are">
+          <h2><span class="section-index">2.</span> Who we are</h2>
+          <p>
+            The data controller responsible for your personal information is:
+          </p>
+          <div class="card legal-contact-card">
+            <strong>{{ display_name }}</strong>
+            <dl>
+              <dt>Trading as</dt>
+              <dd>{{ site_name }}</dd>
+              <dt>Registered / physical address</dt>
+              <dd>
+                {% if legal_address %}{{ legal_address | replace('\n', ', ') }}{% else %}<span class="legal-placeholder">Not yet published — request our current address using the contact details in Section 13.</span>{% endif %}
+              </dd>
+              <dt>Country of operation</dt>
+              <dd>Zimbabwe</dd>
+            </dl>
+          </div>
+        </section>
+
+        <section id="information-we-collect">
+          <h2><span class="section-index">3.</span> Information we collect</h2>
+          <p>We collect different information depending on how you interact with us:</p>
+          <div class="legal-table-wrap">
+            <table class="legal-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>What it includes</th>
+                  <th>When we collect it</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Enquiry &amp; contact information</td>
+                  <td>Your name, phone number, and whatever you choose to tell us in a WhatsApp chat or phone call</td>
+                  <td>When you tap "Chat on WhatsApp" or "Call Now" on a listing and message or speak to us directly</td>
+                </tr>
+                <tr>
+                  <td>Technical / browsing information</td>
+                  <td>IP address, browser type, device type, and pages visited, recorded automatically by our web server for security and performance, plus a light/dark theme preference saved in your browser's local storage</td>
+                  <td>Automatically, whenever you browse the site</td>
+                </tr>
+                <tr>
+                  <td>Tenancy &amp; occupant records</td>
+                  <td>Full name, phone number, email (optional), move-in date, lease end date, agreed rent, and any notes our staff record about your tenancy</td>
+                  <td>When you agree to rent a property from us and we set up your tenancy record</td>
+                </tr>
+                <tr>
+                  <td>Admin account information</td>
+                  <td>Username and a securely hashed password</td>
+                  <td>Only for our own staff who manage listings — not collected from tenants or visitors</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>We do not knowingly collect payment card details, national ID numbers, or other sensitive personal information through this website.</p>
+        </section>
+
+        <section id="how-we-use-it">
+          <h2><span class="section-index">4.</span> How we use your information</h2>
+          <ul>
+            <li>Responding to enquiries about property availability, pricing, and viewings.</li>
+            <li>Setting up and administering a tenancy once you move into one of our properties (rent tracking, lease dates, correspondence).</li>
+            <li>Keeping the website secure, diagnosing faults, and preventing abuse of our systems.</li>
+            <li>Complying with our legal, tax, and regulatory obligations under Zimbabwean law.</li>
+            <li>Improving the listings and content on this website.</li>
+          </ul>
+          <p>We do not use your personal information for automated decision-making or profiling that produces legal effects concerning you, and we do not use it for third-party advertising.</p>
+        </section>
+
+        <section id="legal-basis">
+          <h2><span class="section-index">5.</span> Our legal basis for processing</h2>
+          <p>Under the Cyber and Data Protection Act, we only process personal information where we have a lawful basis to do so:</p>
+          <ul>
+            <li><strong>Consent</strong> — for example, when you voluntarily message us on WhatsApp or call us.</li>
+            <li><strong>Performance of a contract</strong> — to manage your tenancy once a lease is agreed.</li>
+            <li><strong>Legitimate interest</strong> — to keep the site secure and functioning, in a way that does not override your rights.</li>
+            <li><strong>Legal obligation</strong> — where Zimbabwean law requires us to keep or disclose certain records.</li>
+          </ul>
+        </section>
+
+        <section id="cookies">
+          <h2><span class="section-index">6.</span> Cookies &amp; local storage</h2>
+          <p>
+            This website does not use advertising or third-party analytics cookies. The only thing we store in
+            your browser is a single local storage entry (<code>mc-theme</code>) that remembers whether you
+            prefer light or dark mode — it never leaves your device and is not shared with us or anyone else. If
+            that ever changes (for example, if we add analytics in future), we will update this section first.
+          </p>
+        </section>
+
+        <section id="sharing">
+          <h2><span class="section-index">7.</span> Who we share information with</h2>
+          <p>We do not sell your personal information. We only share it in these limited situations:</p>
+          <ul>
+            <li><strong>WhatsApp / Meta Platforms, Inc.</strong> — if you contact us via WhatsApp, that conversation is carried and stored on WhatsApp's infrastructure under WhatsApp's own privacy policy, which may involve processing outside Zimbabwe.</li>
+            <li><strong>Your mobile network operator</strong> — if you call our published phone number.</li>
+            <li><strong>Service providers</strong> — such as our website hosting provider, who process data on our behalf under confidentiality obligations, solely to keep the site running.</li>
+            <li><strong>Regulators &amp; law enforcement</strong> — where required by Zimbabwean law, court order, or a lawful request from POTRAZ or another authority.</li>
+            <li><strong>A buyer or successor</strong> — if the properties or business are ever sold or transferred, subject to the same protections described here.</li>
+          </ul>
+        </section>
+
+        <section id="retention-security">
+          <h2><span class="section-index">8.</span> Retention &amp; security</h2>
+          <h3>How long we keep it</h3>
+          <p>
+            Enquiry conversations conducted over WhatsApp or phone are retained according to those platforms'
+            own retention practices, which we do not control. Tenancy and occupant records are kept for the
+            duration of the tenancy and for a further period afterwards where reasonably necessary to comply
+            with legal, tax, or dispute-resolution obligations, after which they are securely deleted or
+            anonymised.
+          </p>
+          <h3>How we protect it</h3>
+          <p>
+            Access to tenant and occupant records is restricted to authorised administrators who must log in
+            with a password that is never stored in plain text. Session cookies used by the admin panel are
+            marked <code>HttpOnly</code> and <code>SameSite=Lax</code> to reduce the risk of theft. No method of
+            transmission or storage is 100% secure, and we cannot guarantee absolute security, but we take
+            reasonable technical and organisational measures appropriate to the risk.
+          </p>
+        </section>
+
+        <section id="your-rights">
+          <h2><span class="section-index">9.</span> Your rights</h2>
+          <p>Under the Cyber and Data Protection Act, you have the right to:</p>
+          <ul>
+            <li><strong>Be informed</strong> about how your personal information is used (this policy).</li>
+            <li><strong>Access</strong> a copy of the personal information we hold about you.</li>
+            <li><strong>Correct</strong> inaccurate or incomplete information.</li>
+            <li><strong>Request deletion</strong> of your personal information where we no longer have a lawful reason to keep it.</li>
+            <li><strong>Object to or restrict</strong> certain processing of your information.</li>
+            <li><strong>Withdraw consent</strong> at any time, where consent is our basis for processing (this won't affect anything done before you withdrew it).</li>
+            <li><strong>Lodge a complaint</strong> with us or with POTRAZ (see Section 11).</li>
+          </ul>
+          <p>To exercise any of these rights, contact us using the details in Section 13. We may need to verify your identity before acting on your request, and we will respond within a reasonable time as required by the Act.</p>
+        </section>
+
+        <section id="children">
+          <h2><span class="section-index">10.</span> Children's privacy</h2>
+          <p>
+            This website and our tenancy services are intended for adults. Tenancy agreements require the
+            tenant to be at least 18 years old (the age of majority in Zimbabwe). We do not knowingly collect
+            personal information from children. If you believe a child has provided us with personal
+            information, please contact us so we can remove it.
+          </p>
+        </section>
+
+        <section id="complaints">
+          <h2><span class="section-index">11.</span> Complaints to POTRAZ</h2>
+          <p>
+            If you're unhappy with how we've handled your personal information, we'd appreciate the chance to
+            put it right directly first — contact us using Section 13. You also have the right to lodge a
+            complaint with Zimbabwe's data protection authority:
+          </p>
+          <div class="legal-callout">
+            {{ icon('building', 'icon') }}
+            <span>Postal and Telecommunications Regulatory Authority of Zimbabwe (POTRAZ) — <a href="https://www.potraz.gov.zw" target="_blank" rel="noopener">www.potraz.gov.zw</a></span>
+          </div>
+        </section>
+
+        <section id="changes">
+          <h2><span class="section-index">12.</span> Changes to this policy</h2>
+          <p>
+            We may update this Privacy Policy from time to time to reflect changes in our practices or in the
+            law. The "Last updated" date at the top of this page shows when it was last revised. If we make
+            material changes, we will post a notice on the website. We encourage you to review this page
+            periodically.
+          </p>
+        </section>
+
+        <section id="contact">
+          <h2><span class="section-index">13.</span> Contact us</h2>
+          <p>To ask a question about this policy, or to exercise any of your rights under Section 9, contact us:</p>
+          <div class="card legal-contact-card">
+            <dl>
+              <dt>Email</dt>
+              <dd>
+                {% if legal_email %}<a href="mailto:{{ legal_email }}">{{ legal_email }}</a>{% else %}<span class="legal-placeholder">Not yet published — please reach us on WhatsApp or by phone below instead.</span>{% endif %}
+              </dd>
+              <dt>WhatsApp</dt>
+              <dd>
+                {% if whatsapp_number %}<a href="{{ whatsapp_number | whatsapp_url('Hi, I have a question about the Privacy Policy on your website.') }}" target="_blank" rel="noopener">{{ icon('whatsapp', 'icon icon-sm') }} Message us</a>{% else %}<span class="legal-placeholder">Not yet published.</span>{% endif %}
+              </dd>
+              <dt>Phone</dt>
+              <dd>
+                {% if phone_number %}<a href="{{ phone_number | tel_url }}">{{ phone_number }}</a>{% else %}<span class="legal-placeholder">Not yet published.</span>{% endif %}
+              </dd>
+            </dl>
+          </div>
+          <div class="legal-footer-links">
+            <a href="{{ url_for('public.terms') }}" class="btn btn-outline btn-sm">{{ icon('arrow-right', 'icon icon-sm') }} Read our Terms &amp; Conditions</a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

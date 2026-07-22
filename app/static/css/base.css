@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MC Properties — Base styles, reset, and shared components
+   MC Rentals — Base styles, reset, and shared components
    ========================================================================== */
 
 *,
@@ -451,5 +451,10 @@ textarea:focus {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+}
+
+.icon-sm {
+  width: 16px;
+  height: 16px;
 }
 

@@ -5,7 +5,7 @@
       <div>
         <div class="footer-brand">
           <img src="{{ url_for('static', filename='images/logo.png') }}" alt="{{ site_name }} logo">
-          MC Properties
+          {{ site_name }}
         </div>
         <p>Helping tenants find honest, well-kept homes, and helping owners fill them with good tenants. {{ site_tagline }}</p>
       </div>
@@ -16,7 +16,6 @@
           <li><a href="{{ url_for('public.home') }}">Home</a></li>
           <li><a href="{{ url_for('public.listings') }}">All Listings</a></li>
           <li><a href="{{ url_for('public.listings') }}?status=available">Available Now</a></li>
-          <li><a href="{{ url_for('auth.login') }}">Admin Login</a></li>
         </ul>
       </div>
 
@@ -24,7 +23,7 @@
         <div class="footer-heading">Get In Touch</div>
         <ul class="footer-links">
           <li>
-            <a href="{{ whatsapp_number | whatsapp_url('Hi, I would like to enquire about a property listed on MC Properties.') }}" target="_blank" rel="noopener">
+            <a href="{{ whatsapp_number | whatsapp_url('Hi, I would like to enquire about a property listed on ' + site_name + '.') }}" target="_blank" rel="noopener">
               {{ icon('whatsapp', 'icon') }} WhatsApp Us
             </a>
           </li>
@@ -39,7 +38,10 @@
 
     <div class="footer-bottom">
       <span>&copy; <span data-current-year>2026</span> {{ site_name }}. All rights reserved.</span>
-      <span>Built to help you find home, faster.</span>
+      <div class="footer-bottom-links">
+        <a href="{{ url_for('public.privacy_policy') }}">Privacy Policy</a>
+        <a href="{{ url_for('public.terms') }}">Terms &amp; Conditions</a>
+      </div>
     </div>
   </div>
 </footer>

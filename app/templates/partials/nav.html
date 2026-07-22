@@ -3,8 +3,8 @@
   <div class="container nav-bar">
     <a href="{{ url_for('public.home') }}" class="brand">
       <img src="{{ url_for('static', filename='images/logo.png') }}" alt="{{ site_name }} logo">
-      <span>
-        MC Properties
+      <span class="brand-text">
+        <span class="brand-name">{{ site_name }}</span>
         <span class="brand-tagline">{{ site_tagline }}</span>
       </span>
     </a>
@@ -20,7 +20,7 @@
       <button class="theme-toggle" data-theme-toggle type="button" aria-label="Toggle dark mode">
         {{ icon('sun', 'icon icon-sun') }}
       </button>
-      <a href="{{ url_for('public.listings') }}" class="btn btn-primary">
+      <a href="{{ url_for('public.listings') }}" class="btn btn-primary" aria-label="Browse Available Homes">
         {{ icon('search') }}
         <span>Browse Homes</span>
       </a>
@@ -41,6 +41,5 @@
     <a href="{{ url_for('public.listings') }}">Listings</a>
     <a href="{{ url_for('public.home') }}#how-it-works">How It Works</a>
     <a href="{{ url_for('public.home') }}#contact">Contact</a>
-    <a href="{{ url_for('auth.login') }}" class="text-muted">Admin Login</a>
   </div>
 </div>

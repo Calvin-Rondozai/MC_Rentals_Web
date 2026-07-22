@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+
+{% set display_name = legal_business_name if legal_business_name else site_name %}
+
+{% block title %}Terms &amp; Conditions | {{ site_name }}{% endblock %}
+{% block meta_description %}The terms and conditions for using the {{ site_name }} website, in line with Zimbabwe's Consumer Protection Act [Chapter 14:44].{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/legal.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="page-banner">
+  <div class="container">
+    <div class="eyebrow" style="color: var(--color-gold-400);">Legal</div>
+    <h1>Terms &amp; Conditions</h1>
+    <p>The rules for using this website and enquiring about our properties.</p>
+    <div class="legal-meta">
+      <span>Effective date: 22 July 2026</span>
+      <span>Last updated: 22 July 2026</span>
+      <span>Governing law: Zimbabwe</span>
+    </div>
+  </div>
+</section>
+
+<section class="legal-body">
+  <div class="container">
+
+    <div class="legal-summary">
+      <h2>{{ icon('shield-check', 'icon icon-sm') }} Plain-language summary</h2>
+      <ul>
+        <li>Browsing this website and messaging us does not, by itself, create a lease — a tenancy only starts once we've agreed terms with you directly and signed paperwork.</li>
+        <li>Listing details (price, availability, photos) are kept as accurate as we reasonably can, but properties can be rented out quickly, so always confirm availability before you travel to view one.</li>
+        <li>Don't scrape, misuse, or attack the site — see <a href="#acceptable-use">Section 6</a>.</li>
+        <li>Zimbabwean law governs these terms, and you keep every right the Consumer Protection Act [Chapter 14:44] gives you — see <a href="#consumer-protection">Section 12</a>.</li>
+      </ul>
+    </div>
+
+    <div class="legal-layout">
+      <nav class="legal-toc" aria-label="Terms & Conditions sections">
+        <div class="legal-toc-heading">On this page</div>
+        <ol>
+          <li><a href="#acceptance">1. Acceptance of these terms</a></li>
+          <li><a href="#who-we-are">2. Who we are &amp; our role</a></li>
+          <li><a href="#eligibility">3. Eligibility</a></li>
+          <li><a href="#listings">4. Property listings &amp; accuracy</a></li>
+          <li><a href="#pricing">5. Pricing &amp; currency</a></li>
+          <li><a href="#acceptable-use">6. Acceptable use</a></li>
+          <li><a href="#intellectual-property">7. Intellectual property</a></li>
+          <li><a href="#third-party">8. Third-party services</a></li>
+          <li><a href="#disclaimers">9. Disclaimers &amp; liability</a></li>
+          <li><a href="#tenancy">10. Tenancy agreements</a></li>
+          <li><a href="#indemnity">11. Indemnity</a></li>
+          <li><a href="#consumer-protection">12. Consumer protection</a></li>
+          <li><a href="#law">13. Governing law &amp; disputes</a></li>
+          <li><a href="#general">14. General terms</a></li>
+          <li><a href="#contact">15. Contact us</a></li>
+        </ol>
+      </nav>
+
+      <div class="legal-content">
+
+        <section id="acceptance">
+          <h2><span class="section-index">1.</span> Acceptance of these terms</h2>
+          <p>
+            By accessing or using this website, you agree to these Terms &amp; Conditions ("<strong>Terms</strong>").
+            If you do not agree with them, please stop using the site. These Terms should be read together with
+            our <a href="{{ url_for('public.privacy_policy') }}">Privacy Policy</a>, which explains how we handle
+            your personal information.
+          </p>
+        </section>
+
+        <section id="who-we-are">
+          <h2><span class="section-index">2.</span> Who we are &amp; our role</h2>
+          <p>
+            This website is operated by <strong>{{ display_name }}</strong>, trading as
+            <strong>{{ site_name }}</strong>, in Zimbabwe. We list houses and rooms that we own, manage, or are
+            authorised to market on behalf of the relevant property owner. We deal with tenants directly — the
+            website is an advertising and enquiry channel, not an automated booking or payment system. No
+            enquiry, WhatsApp message, or phone call made through this site creates a binding lease on its own;
+            a tenancy only comes into existence once we and the tenant have separately agreed and, where
+            applicable, signed a lease.
+          </p>
+        </section>
+
+        <section id="eligibility">
+          <h2><span class="section-index">3.</span> Eligibility</h2>
+          <p>
+            You must be at least 18 years old (the age of majority in Zimbabwe under the Age of Majority Act
+            [Chapter 8:07]) to enquire about or enter into a tenancy with us. By using this site to make an
+            enquiry, you confirm that you meet this requirement.
+          </p>
+        </section>
+
+        <section id="listings">
+          <h2><span class="section-index">4.</span> Property listings &amp; accuracy</h2>
+          <p>
+            We do our best to keep listing information — descriptions, photos, amenities, bedroom/bathroom
+            counts, and availability status — accurate and up to date. However:
+          </p>
+          <ul>
+            <li>Availability can change quickly; a property shown as "Available" may already be under offer or occupied by the time you enquire.</li>
+            <li>Photos are representative of the property at the time they were taken and may not reflect minor changes since then.</li>
+            <li>Nothing on a listing page constitutes a legally binding offer capable of acceptance — it is an invitation to enquire.</li>
+          </ul>
+          <p>Please confirm current availability, price, and condition directly with us before making any travel or financial commitments.</p>
+        </section>
+
+        <section id="pricing">
+          <h2><span class="section-index">5.</span> Pricing &amp; currency</h2>
+          <p>
+            Prices are displayed in the currency configured by us and are per the billing period stated on the
+            listing (per month, per week, or per night). Unless a listing says otherwise, displayed prices do
+            not include any deposit, utilities, or other charges that may apply to a tenancy. Prices are subject
+            to change without notice until a tenancy agreement is signed, at which point the agreed price for
+            that tenancy is fixed by the lease itself, not by this website.
+          </p>
+        </section>
+
+        <section id="acceptable-use">
+          <h2><span class="section-index">6.</span> Acceptable use</h2>
+          <p>When using this website, you agree not to:</p>
+          <ul>
+            <li>Use the site for any unlawful purpose, or in a way that violates any applicable Zimbabwean law or regulation.</li>
+            <li>Scrape, crawl, or systematically extract listing data without our prior written permission.</li>
+            <li>Attempt to gain unauthorised access to the admin area, our systems, or another user's information.</li>
+            <li>Impersonate any person or entity, or misrepresent your affiliation with anyone.</li>
+            <li>Harass, threaten, or abuse our staff or other users when contacting us via WhatsApp or phone.</li>
+            <li>Introduce viruses, malware, or anything else technologically harmful to the site.</li>
+          </ul>
+          <p>We may suspend or restrict access to the site for anyone who breaches these Terms.</p>
+        </section>
+
+        <section id="intellectual-property">
+          <h2><span class="section-index">7.</span> Intellectual property</h2>
+          <p>
+            The text, layout, design, graphics, and the "{{ site_name }}" name and logo on this website are
+            owned by us or used under licence, unless credited otherwise. You may view and print pages for your
+            own personal, non-commercial use when enquiring about a property, but you may not reproduce,
+            republish, or redistribute any part of this site for commercial purposes without our prior written
+            consent.
+          </p>
+        </section>
+
+        <section id="third-party">
+          <h2><span class="section-index">8.</span> Third-party services</h2>
+          <p>
+            Our WhatsApp and Call buttons hand you off to third-party platforms (WhatsApp/Meta Platforms, Inc.,
+            and your mobile network operator respectively) that we do not own or control. Your use of those
+            platforms is governed entirely by their own terms and privacy policies, and we are not responsible
+            for their availability, content, or how they handle your information.
+          </p>
+        </section>
+
+        <section id="disclaimers">
+          <h2><span class="section-index">9.</span> Disclaimers &amp; liability</h2>
+          <p>
+            This website and its listings are provided "as is" and "as available", without warranties of any
+            kind, whether express or implied, to the fullest extent permitted by Zimbabwean law. We do not
+            guarantee that the site will be uninterrupted, error-free, or available at all times.
+          </p>
+          <p>
+            To the fullest extent permitted by law, we will not be liable for any indirect, incidental, or
+            consequential loss arising from your use of this website (for example, travel costs incurred to view
+            a property that turns out to already be occupied). Nothing in these Terms excludes or limits any
+            liability that cannot lawfully be excluded or limited under the Consumer Protection Act [Chapter
+            14:44] or any other mandatory provision of Zimbabwean law.
+          </p>
+        </section>
+
+        <section id="tenancy">
+          <h2><span class="section-index">10.</span> Tenancy agreements</h2>
+          <p>
+            Any lease or tenancy agreement you enter into with us is a separate contract, agreed directly
+            between you and us outside of this website, and is governed by its own terms and by applicable
+            Zimbabwean property and rental law. These website Terms apply only to your use of the website itself
+            and do not form part of, replace, or override any tenancy agreement.
+          </p>
+        </section>
+
+        <section id="indemnity">
+          <h2><span class="section-index">11.</span> Indemnity</h2>
+          <p>
+            You agree to indemnify and hold us harmless against any claim, loss, or expense arising from your
+            breach of these Terms or your misuse of the website, except to the extent caused by our own
+            negligence or wrongdoing.
+          </p>
+        </section>
+
+        <section id="consumer-protection">
+          <h2><span class="section-index">12.</span> Consumer protection</h2>
+          <p>
+            Nothing in these Terms limits the rights given to you as a consumer under the Consumer Protection Act
+            [Chapter 14:44], including your right to complete and truthful disclosure of the terms of any
+            transaction, your right to fair and just contract terms, and your right to have an unfair contract
+            term set aside by a competent court. If any part of these Terms conflicts with that Act, the Act
+            takes precedence.
+          </p>
+        </section>
+
+        <section id="law">
+          <h2><span class="section-index">13.</span> Governing law &amp; disputes</h2>
+          <p>
+            These Terms are governed by the laws of Zimbabwe. If a dispute arises, we encourage you to contact us
+            first so we can try to resolve it directly and informally. If that isn't possible, the dispute will
+            be subject to the exclusive jurisdiction of the courts of Zimbabwe.
+          </p>
+        </section>
+
+        <section id="general">
+          <h2><span class="section-index">14.</span> General terms</h2>
+          <ul>
+            <li><strong>Changes to these Terms</strong> — we may update these Terms from time to time; the "Last updated" date above shows the current version. Continuing to use the site after changes take effect means you accept the updated Terms.</li>
+            <li><strong>Severability</strong> — if any part of these Terms is found unenforceable, the rest continues to apply.</li>
+            <li><strong>Entire agreement</strong> — these Terms, together with our Privacy Policy, are the entire agreement between you and us regarding use of this website.</li>
+          </ul>
+        </section>
+
+        <section id="contact">
+          <h2><span class="section-index">15.</span> Contact us</h2>
+          <p>Questions about these Terms can be sent to:</p>
+          <div class="card legal-contact-card">
+            <dl>
+              <dt>Email</dt>
+              <dd>
+                {% if legal_email %}<a href="mailto:{{ legal_email }}">{{ legal_email }}</a>{% else %}<span class="legal-placeholder">Not yet published — please reach us on WhatsApp or by phone below instead.</span>{% endif %}
+              </dd>
+              <dt>WhatsApp</dt>
+              <dd>
+                {% if whatsapp_number %}<a href="{{ whatsapp_number | whatsapp_url('Hi, I have a question about your Terms & Conditions.') }}" target="_blank" rel="noopener">{{ icon('whatsapp', 'icon icon-sm') }} Message us</a>{% else %}<span class="legal-placeholder">Not yet published.</span>{% endif %}
+              </dd>
+              <dt>Phone</dt>
+              <dd>
+                {% if phone_number %}<a href="{{ phone_number | tel_url }}">{{ phone_number }}</a>{% else %}<span class="legal-placeholder">Not yet published.</span>{% endif %}
+              </dd>
+            </dl>
+          </div>
+          <div class="legal-footer-links">
+            <a href="{{ url_for('public.privacy_policy') }}" class="btn btn-outline btn-sm">{{ icon('arrow-right', 'icon icon-sm') }} Read our Privacy Policy</a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

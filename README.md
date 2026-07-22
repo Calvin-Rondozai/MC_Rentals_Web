@@ -1,4 +1,4 @@
-# MC Properties
+# MC Rentals
 
 *Find. Buy. Rent. Invest.*
 
@@ -10,7 +10,7 @@ On the other side, whoever manages the properties has no single place to track w
 
 ## The Solution
 
-**MC Properties** is a self-hosted rental listing site with two sides:
+**MC Rentals** is a self-hosted rental listing site with two sides:
 
 - **Public site** — tenants browse available houses/rooms with full descriptions, pricing, photos, bedroom/bathroom counts, and a clear amenities section (water, electricity, backup power, Wi-Fi, security, parking, furnished). Every listing has one-tap **WhatsApp** and **Call** buttons that go straight to the property manager — no sign-up, no middleman.
 - **Admin panel** — the property manager (or their staff, multiple admin accounts are supported) can add or remove listings, upload photos, toggle a house between **Available** and **Occupied** with one click, and keep a running record of occupants per property: name, contact, move-in date, lease end date, and agreed rent.
@@ -31,7 +31,7 @@ No Node build step, no external services required to run locally.
 ## Project Structure
 
 ```
-mc-properties/
+mc-rentals/
 ├── app.py                   # entry point (flask run / python app.py)
 ├── config.py                # app config, env vars, secret key handling
 ├── create_admin.py          # CLI to bootstrap the first admin account
@@ -119,4 +119,4 @@ Once logged in, go to **Contact Settings** in the admin sidebar and set the What
 
 ## License
 
-Private project for MC Properties. Not licensed for redistribution.
+Private project for MC Rentals. Not licensed for redistribution.

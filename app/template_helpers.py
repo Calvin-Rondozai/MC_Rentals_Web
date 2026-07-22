@@ -12,6 +12,9 @@ def _cached_settings():
             "whatsapp_number": Setting.get("whatsapp_number", ""),
             "phone_number": Setting.get("phone_number", ""),
             "currency_symbol": Setting.get("currency_symbol", "$"),
+            "legal_business_name": Setting.get("legal_business_name", ""),
+            "legal_address": Setting.get("legal_address", ""),
+            "legal_email": Setting.get("legal_email", ""),
         }
     return g.site_settings
 

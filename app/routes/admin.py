@@ -213,6 +213,9 @@ def settings():
         Setting.set("whatsapp_number", form.whatsapp_number.data.strip())
         Setting.set("phone_number", form.phone_number.data.strip())
         Setting.set("currency_symbol", form.currency_symbol.data.strip())
+        Setting.set("legal_business_name", (form.legal_business_name.data or "").strip())
+        Setting.set("legal_address", (form.legal_address.data or "").strip())
+        Setting.set("legal_email", (form.legal_email.data or "").strip())
         flash("Settings saved.", "success")
         return redirect(url_for("admin.settings"))
 
@@ -220,6 +223,9 @@ def settings():
         form.whatsapp_number.data = Setting.get("whatsapp_number", "")
         form.phone_number.data = Setting.get("phone_number", "")
         form.currency_symbol.data = Setting.get("currency_symbol", "$")
+        form.legal_business_name.data = Setting.get("legal_business_name", "")
+        form.legal_address.data = Setting.get("legal_address", "")
+        form.legal_email.data = Setting.get("legal_email", "")
 
     return render_template("admin/settings.html", form=form)
 

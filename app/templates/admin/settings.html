@@ -7,14 +7,16 @@
 
 <div class="admin-topbar">
   <div>
-    <h1>Contact Settings</h1>
-    <p class="text-muted">These numbers power the WhatsApp and Call buttons tenants see on every listing.</p>
+    <h1>Contact &amp; Legal Settings</h1>
+    <p class="text-muted">These power the WhatsApp/Call buttons tenants see on every listing, and the details shown on your Privacy Policy and Terms &amp; Conditions pages.</p>
   </div>
 </div>
 
 <div class="card form-card" style="max-width: 560px;">
   <form method="post" novalidate>
     {{ form.hidden_tag() }}
+
+    <h2 style="font-size: var(--text-md); margin-bottom: var(--space-4);">Contact Numbers</h2>
 
     <div class="field">
       <label for="{{ form.whatsapp_number.id }}" class="required">{{ form.whatsapp_number.label.text }}</label>
@@ -33,6 +35,36 @@
       <label for="{{ form.currency_symbol.id }}" class="required">{{ form.currency_symbol.label.text }}</label>
       {{ form.currency_symbol(id=form.currency_symbol.id) }}
       {% for error in form.currency_symbol.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+    </div>
+
+    <h2 style="font-size: var(--text-md); margin-bottom: var(--space-4); margin-top: var(--space-7); padding-top: var(--space-6); border-top: 1px solid var(--color-border);">
+      Legal Details
+    </h2>
+    <p class="text-muted" style="margin-top: calc(var(--space-4) * -1); margin-bottom: var(--space-5);">
+      Shown on the public <a href="{{ url_for('public.privacy_policy') }}" target="_blank">Privacy Policy</a> and
+      <a href="{{ url_for('public.terms') }}" target="_blank">Terms &amp; Conditions</a> pages. Fill these in
+      accurately before you publish the site — until you do, those pages show a placeholder telling visitors
+      this hasn't been set up yet, instead of a made-up address.
+    </p>
+
+    <div class="field">
+      <label for="{{ form.legal_business_name.id }}">{{ form.legal_business_name.label.text }}</label>
+      {{ form.legal_business_name(id=form.legal_business_name.id, placeholder="e.g. MC Rentals (Private) Limited") }}
+      <p class="help-text">Your registered/trading name, if different from "{{ site_name }}". Leave blank to just use "{{ site_name }}".</p>
+      {% for error in form.legal_business_name.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="field">
+      <label for="{{ form.legal_address.id }}">{{ form.legal_address.label.text }}</label>
+      {{ form.legal_address(id=form.legal_address.id, rows=3, placeholder="Stand/House number, street, suburb, city, Zimbabwe") }}
+      {% for error in form.legal_address.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="field">
+      <label for="{{ form.legal_email.id }}">{{ form.legal_email.label.text }}</label>
+      {{ form.legal_email(id=form.legal_email.id, placeholder="privacy@yourdomain.co.zw") }}
+      <p class="help-text">Where tenants/visitors can email you to access, correct, or delete their data.</p>
+      {% for error in form.legal_email.errors %}<div class="error-text">{{ error }}</div>{% endfor %}
     </div>
 
     <button type="submit" class="btn btn-primary">{{ icon('check') }} Save Settings</button>
